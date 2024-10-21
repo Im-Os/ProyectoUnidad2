@@ -20,7 +20,39 @@ public class menuCliente {
     private static gestionSistema sistema = new gestionSistema();
 
     public static void mostrarMenuCliente(Cliente cliente) {
-        // ... (sin cambios)
+        boolean salir = false;
+        while (!salir) {
+            System.out.println("\nBienvenido, " + cliente.getNombre());
+            System.out.println("1. Ver cartelera");
+            System.out.println("2. Realizar reservación");
+            System.out.println("3. Ver mis reservaciones");
+            System.out.println("4. Comprar boletos");
+            System.out.println("5. Salir");
+            System.out.print("Seleccione una opción: ");
+
+            int opcion = sc.nextInt();
+            sc.nextLine(); // Consumir el salto de línea
+
+            switch (opcion) {
+                case 1:
+                    verCartelera();
+                    break;
+                case 2:
+                    realizarReservacion(cliente);
+                    break;
+                case 3:
+                    verReservaciones(cliente);
+                    break;
+                case 4:
+                    comprarBoletos(cliente);
+                    break;
+                case 5:
+                    salir = true;
+                    break;
+                default:
+                    System.out.println("Opción no válida. Por favor, intente de nuevo.");
+            }
+        }
     }
 
     private static void verCartelera() {
@@ -39,8 +71,7 @@ public class menuCliente {
 
         Horario horario = seleccionarHorario(pelicula);
         if (horario == null) return;
-
-        List<Sala> salasDisponibles = sistema.getSalasDisponibles(pelicula, horario);
+        List<Sala> salasDisponibles = sistema.getSalasPorPeliculaYHorario(pelicula, horario);
         if (salasDisponibles.isEmpty()) {
             System.out.println("No hay salas disponibles para esta película y horario.");
             return;
