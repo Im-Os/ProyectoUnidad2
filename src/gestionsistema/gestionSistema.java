@@ -296,4 +296,12 @@ public class gestionSistema {
         sala.agregarHorario(horario);
         System.out.println("Depuración: Película " + pelicula.getId() + " y horario " + horario.mostrarInfoHorario() + " asignados a sala " + sala.getNumeroSala());
     }
+
+    public List<Sala> getSalasDisponibles(Pelicula pelicula, Horario horario) {
+        List<Sala> salasDisponibles = getSalasPorPeliculaYHorario(pelicula, horario);
+        if (salasDisponibles.isEmpty()) {
+            System.out.println("No hay salas disponibles para esta película y horario.");
+        }
+        return salasDisponibles;
+    }
 }

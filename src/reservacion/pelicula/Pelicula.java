@@ -24,12 +24,6 @@ public class Pelicula {
         this.horarios = new ArrayList<>();
     }
 
-    public Pelicula() {
-
-    }
-
-
-
     // Getters y setters
 
     public int getId() {
@@ -110,9 +104,5 @@ public class Pelicula {
     @Override
     public String toString() {
         return "ID: " + id + ", Título: " + titulo;
-    }
-
-    public boolean tieneHorariosDisponibles() {
-        return !horarios.isEmpty();
     }
 }

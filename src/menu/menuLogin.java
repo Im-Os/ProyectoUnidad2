@@ -1,8 +1,14 @@
 package menu;
 
+import compra.Compra;
 import gestionsistema.gestionSistema;
 import cliente.Cliente;
 import admin.Admin;
+import reservacion.Reservacion;
+import sala.Sala;
+import pelicula.Pelicula;
+import asiento.Asiento;
+
 import java.util.Scanner;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -46,7 +52,9 @@ public class menuLogin {
             System.out.println("\n--- Área de Cliente ---");
             System.out.println("1. Iniciar sesión");
             System.out.println("2. Crear cuenta");
-            System.out.println("3. Volver al menú principal");
+            System.out.println("3. Ver disponibilidad de salas y asientos");
+            System.out.println("4. Reservar Asientos");
+            System.out.println("5. Consultar peliculas");
             System.out.print("Seleccione una opción: ");
 
             int opcion = scanner.nextInt();
@@ -60,12 +68,37 @@ public class menuLogin {
                     crearCuentaCliente();
                     break;
                 case 3:
-                    volverAlMenuPrincipal = true;
+                    comprarBoletos();
                     break;
-                default:
-                    System.out.println("Opción no válida. Por favor, intente de nuevo.");
+                case 4:
+                    Asiento asiento = new Asiento();
+                    String datosAsiento = (String) asiento.mostrarInfoAsiento();
+                    System.out.println(datosAsiento);
+                    break;
+                case 5:
+                    Pelicula pelicula = new Pelicula();
+                    String datosPelicula = pelicula.mostrarDatos();
+                    System.out.println(datosPelicula); // Imprimir los datos de la película
+                    break;
+                case 6:
+                    volverAlMenuPrincipal = true;
+                default: System.out.println("Opción no válida. Por favor, intente de nuevo.");
+                break;
             }
         }
+    }
+
+    private static void comprarBoletos() {
+        System.out.print("Ingrese el ID de la sala: ");
+        int idSala = scanner.nextInt();
+        scanner.nextLine(); // Consumir el salto de línea
+
+        // Crear la sala con valores ficticios
+        Sala sala = new Sala(idSala, idSala, 100, 20, 30, 5, 10);
+        sala.inicializarAsientos();
+
+        System.out.println("Asientos inicializados para la sala: " + sala.getNumeroSala());
+        sala.imprimirMatrizAsientos();
     }
 
     private static void manejarAdmin() {

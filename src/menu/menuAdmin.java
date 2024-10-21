@@ -14,7 +14,7 @@ import java.util.Calendar;
 import java.util.List;
 
 public class menuAdmin {
-    private static Scanner sc = new Scanner(System.in);
+    public static Scanner sc = new Scanner(System.in);
     private static SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
     private static gestionSistema sistema = new gestionSistema();
 

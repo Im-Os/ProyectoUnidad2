@@ -34,7 +34,7 @@ public class Sala {
         inicializarAsientos();
     }
 
-    private void inicializarAsientos() {
+    public void inicializarAsientos() {
         int numeroAsiento = 1;
         for (int i = 0; i < filas; i++) {
             for (int j = 0; j < columnas; j++) {
@@ -52,6 +52,7 @@ public class Sala {
         }
     }
 
+    // Getters y Setters
     public int getId() {
         return id;
     }
@@ -132,83 +133,83 @@ public class Sala {
     }
 
     public boolean tienePeliculaYHorario(Pelicula pelicula, Horario horario) {
-        return this.peliculasYHorarios.containsKey(pelicula) && 
-               this.peliculasYHorarios.get(pelicula).contains(horario);
+        return this.peliculasYHorarios.containsKey(pelicula) &&
+                this.peliculasYHorarios.get(pelicula).contains(horario);
     }
 
     public String mostrarInfoSala() {
         StringBuilder info = new StringBuilder();
         info.append("ID de Sala: ").append(getId()).append("\n")
-            .append("Sala Nº: ").append(getNumeroSala()).append("\n")
-            .append("Capacidad: ").append(getCapacidad()).append("\n")
-            .append("Cantidad de Asientos VIP: ").append(getCantidadAsientosVip()).append("\n")
-            .append("Cantidad de Asientos Premium: ").append(getCantidadAsientosPremium()).append("\n")
-            .append("Distribución: ").append(getFilas()).append(" filas, ").append(getColumnas()).append(" columnas\n")
-            .append("Películas y Horarios:\n");
-            for (Map.Entry<Pelicula, List<Horario>> entry : peliculasYHorarios.entrySet()) {
-                info.append(entry.getKey().getTitulo()).append(":\n");
-                for (Horario horario : entry.getValue()) {
-                    info.append("\t").append(horario.mostrarInfoHorario()).append("\n");
-                }
-            }
-            return info.toString();
-        }
-    
-        public void imprimirMatrizAsientos() {
-            System.out.println("                                  PANTALLA");
-            System.out.println("----------------------------------------------------------------------------");
-            for (int i = 0; i < filas; i++) {
-                for (int j = 0; j < columnas; j++) {
-                    Asiento asiento = asientos.get(i * columnas + j);
-                    char fila = (char) ('A' + i);
-                    String estado = asiento.isDisponible() ? "O" : "X";
-                    System.out.printf("%s%d:%s\t", fila, j + 1, estado);
-                }
-                System.out.println();
-            }
-            System.out.println("O: Disponible, X: No disponible");
-        }
-    
-        public Asiento obtenerAsiento(char fila, int columna) {
-            int filaIndex = fila - 'A';
-            int columnaIndex = columna - 1;
-            
-            if (filaIndex >= 0 && filaIndex < filas && columnaIndex >= 0 && columnaIndex < columnas) {
-                return asientos.get(filaIndex * columnas + columnaIndex);
-            }
-            return null;
-        }
-    
-        public List<Pelicula> getPeliculas() {
-            return new ArrayList<>(peliculasYHorarios.keySet());
-        }
-    
-        public List<Horario> getHorarios(Pelicula pelicula) {
-            return peliculasYHorarios.getOrDefault(pelicula, new ArrayList<>());
-        }
-    
-        public void eliminarPelicula(Pelicula pelicula) {
-            peliculasYHorarios.remove(pelicula);
-            if (peliculaActual != null && peliculaActual.equals(pelicula)) {
-                peliculaActual = null;
+                .append("Sala Nº: ").append(getNumeroSala()).append("\n")
+                .append("Capacidad: ").append(getCapacidad()).append("\n")
+                .append("Cantidad de Asientos VIP: ").append(getCantidadAsientosVip()).append("\n")
+                .append("Cantidad de Asientos Premium: ").append(getCantidadAsientosPremium()).append("\n")
+                .append("Distribución: ").append(getFilas()).append(" filas, ").append(getColumnas()).append(" columnas\n")
+                .append("Películas y Horarios:\n");
+        for (Map.Entry<Pelicula, List<Horario>> entry : peliculasYHorarios.entrySet()) {
+            info.append(entry.getKey().getTitulo()).append(":\n");
+            for (Horario horario : entry.getValue()) {
+                info.append("\t").append(horario.mostrarInfoHorario()).append("\n");
             }
         }
-    
-        public void eliminarHorario(Pelicula pelicula, Horario horario) {
-            List<Horario> horarios = peliculasYHorarios.get(pelicula);
-            if (horarios != null) {
-                horarios.remove(horario);
-                if (horarios.isEmpty()) {
-                    peliculasYHorarios.remove(pelicula);
-                    if (peliculaActual != null && peliculaActual.equals(pelicula)) {
-                        peliculaActual = null;
-                    }
-                }
+        return info.toString();
+    }
+
+    public void imprimirMatrizAsientos() {
+        System.out.println("                                  PANTALLA");
+        System.out.println("----------------------------------------------------------------------------");
+        for (int i = 0; i < filas; i++) {
+            for (int j = 0; j < columnas; j++) {
+                Asiento asiento = asientos.get(i * columnas + j);
+                char fila = (char) ('A' + i);
+                String estado = asiento.isDisponible() ? "O" : "X";
+                System.out.printf("%s%d:%s\t", fila, j + 1, estado);
             }
+            System.out.println();
         }
-    
-        @Override
-        public String toString() {
-            return "Sala " + numeroSala + " (Capacidad: " + capacidad + " asientos)";
+        System.out.println("O: Disponible, X: No disponible");
+    }
+
+    public Asiento obtenerAsiento(char fila, int columna) {
+        int filaIndex = fila - 'A';
+        int columnaIndex = columna - 1;
+
+        if (filaIndex >= 0 && filaIndex < filas && columnaIndex >= 0 && columnaIndex < columnas) {
+            return asientos.get(filaIndex * columnas + columnaIndex);
+        }
+        return null;
+    }
+
+    public List<Pelicula> getPeliculas() {
+        return new ArrayList<>(peliculasYHorarios.keySet());
+    }
+
+    public List<Horario> getHorarios(Pelicula pelicula) {
+        return peliculasYHorarios.getOrDefault(pelicula, new ArrayList<>());
+    }
+
+    public void eliminarPelicula(Pelicula pelicula) {
+        peliculasYHorarios.remove(pelicula);
+        if (peliculaActual != null && peliculaActual.equals(pelicula)) {
+            peliculaActual = null;
         }
     }
+
+    public void eliminarHorario(Pelicula pelicula, Horario horario) {
+        List<Horario> horarios = peliculasYHorarios.get(pelicula);
+        if (horarios != null) {
+            horarios.remove(horario);
+            if (horarios.isEmpty()) {
+                peliculasYHorarios.remove(pelicula);
+                if (peliculaActual != null && peliculaActual.equals(pelicula)) {
+                    peliculaActual = null;
+                }
+            }
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "Sala " + numeroSala + " (Capacidad: " + capacidad + " asientos)";
+    }
+}

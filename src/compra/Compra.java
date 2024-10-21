@@ -21,6 +21,10 @@ public class Compra {
         this.productosAdicionales = productosAdicionales;
     }
 
+    public Compra() {
+
+    }
+
     public int getId() {
         return id;
     }

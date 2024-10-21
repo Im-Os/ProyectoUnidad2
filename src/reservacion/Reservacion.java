@@ -27,6 +27,10 @@ public class Reservacion {
         this.confirmada = false;
     }
 
+    public Reservacion() {
+
+    }
+
     // Getters y setters
 
     public int getId() {

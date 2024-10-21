@@ -20,39 +20,7 @@ public class menuCliente {
     private static gestionSistema sistema = new gestionSistema();
 
     public static void mostrarMenuCliente(Cliente cliente) {
-        boolean salir = false;
-        while (!salir) {
-            System.out.println("\nBienvenido, " + cliente.getNombre());
-            System.out.println("1. Ver cartelera");
-            System.out.println("2. Realizar reservación");
-            System.out.println("3. Ver mis reservaciones");
-            System.out.println("4. Comprar boletos");
-            System.out.println("5. Salir");
-            System.out.print("Seleccione una opción: ");
 
-            int opcion = sc.nextInt();
-            sc.nextLine(); // Consumir el salto de línea
-
-            switch (opcion) {
-                case 1:
-                    verCartelera();
-                    break;
-                case 2:
-                    realizarReservacion(cliente);
-                    break;
-                case 3:
-                    verReservaciones(cliente);
-                    break;
-                case 4:
-                    comprarBoletos(cliente);
-                    break;
-                case 5:
-                    salir = true;
-                    break;
-                default:
-                    System.out.println("Opción no válida. Por favor, intente de nuevo.");
-            }
-        }
     }
 
     private static void verCartelera() {
@@ -64,14 +32,14 @@ public class menuCliente {
         }
     }
 
-    private static void realizarReservacion(Cliente cliente) {
+    public void crearReservacion(Cliente cliente) {
         verCartelera();
         Pelicula pelicula = seleccionarPelicula();
-        if (pelicula == null) return;
 
         Horario horario = seleccionarHorario(pelicula);
         if (horario == null) return;
-        List<Sala> salasDisponibles = sistema.getSalasPorPeliculaYHorario(pelicula, horario);
+
+        List<Sala> salasDisponibles = sistema.getSalasDisponibles(pelicula, horario);
         if (salasDisponibles.isEmpty()) {
             System.out.println("No hay salas disponibles para esta película y horario.");
             return;
@@ -100,8 +68,10 @@ public class menuCliente {
         while (true) {
             System.out.print("Seleccione el ID de la película: ");
             int idPelicula = leerEntero();
-            Pelicula pelicula = gestionSistema.obtenerPeliculaPorId(idPelicula);
+            Pelicula pelicula = sistema.obtenerPeliculaPorId(idPelicula);
             if (pelicula != null) {
+                // Mostrar información de la película y horarios disponibles
+                System.out.println(pelicula.mostrarDatos());
                 return pelicula;
             }
             System.out.println("Película no encontrada. Por favor, intente de nuevo.");
@@ -223,17 +193,17 @@ public class menuCliente {
             System.out.println("\n¿Desea agregar productos de dulcería? (s/n)");
             String respuesta = sc.nextLine();
             List<Dulceria> productosComprados = new ArrayList<>();
-            
+
             if (respuesta.equalsIgnoreCase("s")) {
                 while (true) {
                     sistema.mostrarProductosDulceria();
                     System.out.print("Ingrese el nombre del producto a comprar (0 para terminar): ");
                     String nombreProducto = sc.nextLine();
-                    
+
                     if (nombreProducto.equals("0")) {
                         break;
                     }
-                    
+
                     Dulceria producto = sistema.obtenerProductoDulceriaPorNombre(nombreProducto);
                     if (producto != null) {
                         productosComprados.add(producto);
@@ -255,7 +225,7 @@ public class menuCliente {
         }
     }
 
-    private static int leerEntero() {
+    public static int leerEntero() {
         while (true) {
             try {
                 return Integer.parseInt(sc.nextLine());

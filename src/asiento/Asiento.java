@@ -1,5 +1,8 @@
 package asiento;
 
+import static menu.menuAdmin.sc;
+import static menu.menuCliente.leerEntero;
+
 public class Asiento {
     private int numero;
     private boolean disponible;
@@ -8,8 +11,15 @@ public class Asiento {
     private double precio;
     private int fila;
     private int columna;
+    private String asi; // Variable para el asiento
+    private String tip; // Variable para el tipo de asiento
+    private String fil; // Variable para la fila (asumo que te refieres a fila)
+    private String colum;
+    private int res=0;
+    private int pre=0;
 
     public Asiento(int numero, String tipo, int fila, int columna) {
+
         this.numero = numero;
         this.tipo = tipo;
         this.disponible = true;
@@ -26,6 +36,10 @@ public class Asiento {
             default:
                 this.precio = 100.00; // Precio por defecto para asientos regulares
         }
+    }
+
+    public Asiento() {
+
     }
 
     public int getNumero() {
@@ -84,10 +98,38 @@ public class Asiento {
         this.columna = columna;
     }
 
-    public String mostrarInfoAsiento() {
-        return "Asiento: " + getNumero() + " - Tipo: " + getTipo() + " - Precio: $" + getPrecio() + 
-               " - Disponible: " + (isDisponible() ? "Sí" : "No") + 
+    public Object mostrarInfoAsiento() {
+
+        System.out.println("Ingrese el asiento que usted guste tener");
+        System.out.print("Asiento: ");
+        asi= sc.nextLine();
+        System.out.print("Tipo de asiento: Normal(1), VIP(2) O PREMIUM(3): ");
+        tip =sc.nextLine();
+        System.out.print("Columna: ");
+        colum = sc.nextLine();
+        System.out.print("Fila: ");
+        fil= sc.nextLine();
+        do if(res>1){
+            System.out.print("Este lugar ya ha sido apartado, por favor elija otro");
+        } else{System.out.print("Reservado con exito");
+        }
+        while (res>0);
+        if(pre==1) {
+            pre=100;
+        } else if (pre==2) {
+            pre=200;
+        }else if (pre==3) {
+            pre=400;
+        }
+
+
+        return "Asiento: " + asi + " - Tipo: " + tip + " - Precio: $" + pre +
+               " - Disponible: " + (isDisponible() ? "Sí" : "No") +
                " - Reservado: " + (isReservado() ? "Sí" : "No") +
-               " - Fila: " + getFila() + " - Columna: " + getColumna();
+               " - Fila: " + fil + " - Columna: " + colum;
+    }
+
+    private int leerEntero(String s) {
+        return 0;
     }
 }
